@@ -18,13 +18,23 @@ python -m venv .venv; .\.venv\Scripts\Activate.ps1; pip install -r requirements.
 
 2. Run the server:
 
+On Windows it's recommended to use the `py` launcher (works even if `python` isn't on PATH):
+
 ```powershell
-python main.py
+# activate your venv first (if using one)
+.\.venv\Scripts\Activate.ps1
+
+# recommended: use the py launcher to run uvicorn
+py -3 -m uvicorn main:app --port 8080
 ```
 
 3. Query the API:
 
-GET http://localhost:8080/search?q=your+query&page=1&page_size=10
+GET http://localhost:8080/search?search_query=your+query&page=1&page_size=10
+
+4. GET /Search Endpoint:
+
+GET http://localhost:8080/docs#/default/search_search_get
 
 
 Design notes
