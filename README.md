@@ -69,13 +69,21 @@ Short summary of practical steps:
 - Scale vertically (more CPU) and horizontally behind a low-latency load balancer.
 - If needed, precompute and store the top-N results for frequent queries in a fast cache (Redis, in-process LRU).
 
-Example deployment options
-- Render: push image or connect the GitHub repo and set the start command to `uvicorn main:app --host 0.0.0.0 --port 8080`.
-- Google Cloud Run: build container and deploy; the service can pull the messages API directly.
-- Railway / Fly / Heroku: similar approach.
+**Deploy on Render (recommended for quick public deploys)**
 
+Render is a simple way to host this service directly from your GitHub repo (it will build the Dockerfile or use the Docker image you push). Steps:
 
-Notes about deployment and performance guarantees
+1. Push your code to GitHub and make sure `Dockerfile` is present at the repo root.
+2. Sign in to https://render.com and connect your GitHub account.
+3. Create a **New Web Service** and choose your `SearchEngine` repository.
+   - For **Environment**, choose `Docker` (Render will use the repository Dockerfile).
+   - Set the **Start Command** to leave blank (Dockerfile defines the CMD), or explicitly use: `uvicorn main:app --host 0.0.0.0 --port 8080`.
+   - If prompted, set the **Port** to `8080`.
+4. Set environment variables in the Render dashboard (recommended):
+   - `MAX_PAGE_SIZE` — increase if you want larger page responses (default 100).
+   - Any upstream credentials (e.g., `UPSTREAM_API_KEY`) as secrets.
+5. Deploy and watch the build logs. After a successful build Render will provide a public URL for your service.
 
-- This repository provides the code and a Dockerfile for running the service publicly. To actually deploy to a public URL you'll need to build and push the image to a container registry or use a platform that builds directly from source and provide any necessary credentials.
+Notes about performance
+
 - The implementation keeps the dataset in memory so searches are typically very fast (<100ms) for modest datasets. Your mileage will vary depending on the size of the upstream messages dataset and the hosting environment.
