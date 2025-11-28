@@ -2,6 +2,11 @@
 
 This repository implements a small search service on top of the provided messages API.
 
+**The service is deployed on Render and reachable at:**
+
+https://message-search-engine.onrender.com
+
+
 Features
 - FastAPI-based HTTP service exposing /search and /health endpoints
 - In-memory inverted-index for fast text search
