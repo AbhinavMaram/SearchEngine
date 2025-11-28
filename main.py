@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Query, HTTPException
+from fastapi.responses import RedirectResponse
 import os
 from pydantic import BaseModel
 from typing import Any, List
@@ -46,6 +47,12 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="Search Service", lifespan=lifespan)
+
+
+@app.get("/", include_in_schema=False)
+def root_redirect():
+    """Redirect root to the Swagger docs."""
+    return RedirectResponse(url="/docs")
 
 
 @app.get("/search", response_model=SearchResponse)
