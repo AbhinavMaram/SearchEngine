@@ -1,6 +1,6 @@
 # Search Service
 
-This repository implements a small search service on top of the provided messages API.
+This repository implements a small search service on top of the messages API.
 
 **The service is deployed on Render and reachable at:**
 
