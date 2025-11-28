@@ -7,13 +7,13 @@ This repository implements a small search service on top of the messages API.
 https://message-search-engine.onrender.com
 
 
-Features
+**Features**
 - FastAPI-based HTTP service exposing /search and /health endpoints
 - In-memory inverted-index for fast text search
 - Periodic refresh from the upstream messages endpoint (configurable)
 - Dockerfile for easy deployment
 
-Quick start (local)
+**Quick start (local)**
 
 1. Create a virtualenv and install deps:
 
@@ -42,7 +42,7 @@ GET http://localhost:8080/search?search_query=your+query&page=1&page_size=10
 GET http://localhost:8080/docs#/default/search_search_get
 
 
-Design notes
+## Design notes:
 
 Alternatives considered for the search implementation:
 
@@ -63,6 +63,7 @@ Alternatives considered for the search implementation:
    - Cons: not suited to huge datasets or advanced linguistic features.
 
 
+## Data Insights:
 How to reduce latency to ~30ms
 
 Short summary of practical steps:
@@ -74,7 +75,8 @@ Short summary of practical steps:
 - Scale vertically (more CPU) and horizontally behind a low-latency load balancer.
 - If needed, precompute and store the top-N results for frequent queries in a fast cache (Redis, in-process LRU).
 
-**Deploy on Render (recommended for quick public deploys)**
+
+## Deploy on Render
 
 Render is a simple way to host this service directly from your GitHub repo (it will build the Dockerfile or use the Docker image you push). Steps:
 
@@ -89,6 +91,6 @@ Render is a simple way to host this service directly from your GitHub repo (it w
    - Any upstream credentials (e.g., `UPSTREAM_API_KEY`) as secrets.
 5. Deploy and watch the build logs. After a successful build Render will provide a public URL for your service.
 
-Notes about performance
+## Notes about performance
 
 - The implementation keeps the dataset in memory so searches are typically very fast (<100ms) for modest datasets. Your mileage will vary depending on the size of the upstream messages dataset and the hosting environment.
